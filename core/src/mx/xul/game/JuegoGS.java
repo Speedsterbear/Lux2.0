@@ -322,6 +322,10 @@ public class JuegoGS extends Pantalla {
 
         //cargarRecursos();
         crearObjetos();
+
+        juego.calcularDistanciaTotal(velocidadRojo,velocidadVerde,velocidadAzul,velocidadBlanco,
+                duracionRojo,duracionVerde,duracionAzul,duracionBlanco); //Calcular la distancia total del juego
+
         // Bloquear la tecla de back
         Gdx.input.setCatchKey(Input.Keys.BACK,true);
 
@@ -840,6 +844,7 @@ public class JuegoGS extends Pantalla {
         //Cuando la velocidad sea = 0, la oscuridad avanzará rápido por nuestro personaje.
         if (estado == EstadoJuego.JUGANDO) {
             juego.incrementarCuentaSegundos(delta);
+            juego.incrementarDistancia(delta,velocidad);
             actualizarFondo(delta);
 
             actualizarGemas(delta);
@@ -851,6 +856,7 @@ public class JuegoGS extends Pantalla {
             }
 
             distanciaRecorrida += velocidad * delta;
+            System.out.println(distanciaRecorrida);
 
             colisionLumilFront = hijoOscuridadColisionFront();
             colisionLumilUp = hijoOscuridadColisionUp();

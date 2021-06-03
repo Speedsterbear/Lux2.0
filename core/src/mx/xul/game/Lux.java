@@ -20,6 +20,8 @@ public class Lux extends Game {
 	private final float VOLUMEN_DESEADO = 0.7f;
 	private float volumenMusica=VOLUMEN_DESEADO;
 	private float tiempoJugando =0;// Acumulador para saber cuanto tiempo se tardó pasar el juego.
+	private float distanciaRecorrida =0; //Acumulador para saber la distancia recorrida.
+	private float distanciaTotal = 0;//Distnacia total recorrida.
 
 	private final AssetManager assetManager = new AssetManager();
 
@@ -91,6 +93,28 @@ public class Lux extends Game {
 		tiempoJugando +=delta;
 	}
 
+	public void calcularDistanciaTotal(float VR, float VG, float VB, float VW,
+									   float TR, float TG, float TB, float TW){
+		float tiempoEntreSecciones = 5.35f;
+		distanciaTotal= (VG*(TG+tiempoEntreSecciones)) + (VR*(TR+tiempoEntreSecciones))
+				+ (VB*(TB+tiempoEntreSecciones)) + (VW*(TW+tiempoEntreSecciones));
+	}
+
+	public void incrementarDistancia(float delta, float velocidad){
+		distanciaRecorrida += (velocidad*delta);
+	}
+
+	public String getDistanciaRecorrida(){
+		String stringInicial = "You  were  ";
+		String stringFinal = " m  away  from  saving  the  world.";
+		String stringDistancia = String.format("%.2f",((distanciaTotal - distanciaRecorrida)/10));
+
+		//String string = Float.toString(tiempoJugando);
+		return stringInicial + stringDistancia + stringFinal;
+	}
+
+
+
 	public String getCuentaSegundos(){
 		//String string = Float.toString(tiempoJugando);;
 		return String.format("%.2f",tiempoJugando);
@@ -98,7 +122,6 @@ public class Lux extends Game {
 
 	// Método accesor de assetManager
 	public AssetManager getAssetManager() {
-
 		return assetManager;
 	}
 

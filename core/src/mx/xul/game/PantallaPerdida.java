@@ -63,6 +63,10 @@ public class PantallaPerdida extends Pantalla{
     private static final float TIEMPO_FADE_SONIDOJUEGO = 1f ;
     private float volumenSonidoPerder =  0.7f;
 
+    // Texto
+    private Texto texto; //Muestra los valores en la pantalla
+
+
     public PantallaPerdida(Lux juego) {
         this.juego=juego;
     }
@@ -84,6 +88,8 @@ public class PantallaPerdida extends Pantalla{
         crearBrillo();
         crearPerdio();
         crearMusica();
+        crearTexto();
+
 
         //Iniciar la transición
         fadeNegro = new Transicion(0,0,0,1,ALTO,ANCHO);
@@ -91,6 +97,10 @@ public class PantallaPerdida extends Pantalla{
 
         // Bloquear la tecla de back
         Gdx.input.setCatchKey(Input.Keys.BACK,true);
+    }
+
+    private void crearTexto() {
+        texto = new Texto();
     }
 
     private void crearMusica() {
@@ -194,6 +204,8 @@ public class PantallaPerdida extends Pantalla{
 
         batch.draw(reflector,(ANCHO/3)-(reflector.getWidth()/2),0);
         batch.draw(mensajePerder,ANCHO/2,(ALTO/2)+30);
+
+        texto.mostrarMensaje(batch,juego.getDistanciaRecorrida(),ANCHO/2, ALTO/10);
         batch.end();
 
         escenaPerdio.draw();
