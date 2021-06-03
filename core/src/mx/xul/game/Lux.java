@@ -64,7 +64,7 @@ public class Lux extends Game {
 	}
 	public void fadeOutMusica(){
 		if (musicaPantallasSecundarias.isPlaying()){
-			System.out.println(musicaPantallasSecundarias.getVolume());
+			//System.out.println(musicaPantallasSecundarias.getVolume());
 			if (volumenMusica>0){
 				volumenMusica -= 0.04f;
 			}else {volumenMusica=0;}
@@ -72,7 +72,7 @@ public class Lux extends Game {
 		}
 
 		if (musicaPantallasSecundariasIntro.isPlaying()){
-			System.out.println(musicaPantallasSecundariasIntro.getVolume());
+			//System.out.println(musicaPantallasSecundariasIntro.getVolume());
 			if (volumenMusica>0){
 				volumenMusica -= 0.04f;
 			}else {volumenMusica=0;}
@@ -85,8 +85,11 @@ public class Lux extends Game {
 		musicaPantallasSecundariasIntro.stop();
 	}
 
-	public void inicializarCuentaSegundos(){
+	public void inicializarContSegundosyDistancia(){
+
 		tiempoJugando =0;
+		distanciaRecorrida = 0;
+		distanciaTotal = 0;
 	}
 
 	public void incrementarCuentaSegundos(float delta){
@@ -95,19 +98,30 @@ public class Lux extends Game {
 
 	public void calcularDistanciaTotal(float VR, float VG, float VB, float VW,
 									   float TR, float TG, float TB, float TW){
-		float tiempoEntreSecciones = 5.35f;
+		//float tiempoEntreSecciones = 8.45f;
+
+		distanciaTotal= (VG*(TG)) + (VR*(TR)) + (VB*(TB)) + (VW*(TW)) + (13150);
+		//System.out.println(distanciaTotal);
+
+
+		/*
 		distanciaTotal= (VG*(TG+tiempoEntreSecciones)) + (VR*(TR+tiempoEntreSecciones))
 				+ (VB*(TB+tiempoEntreSecciones)) + (VW*(TW+tiempoEntreSecciones));
+
+		 */
 	}
 
 	public void incrementarDistancia(float delta, float velocidad){
-		distanciaRecorrida += (velocidad*delta);
+		if (distanciaRecorrida<= distanciaTotal){
+			distanciaRecorrida += (velocidad*delta);
+			//System.out.println(distanciaRecorrida);
+		} else {distanciaRecorrida = distanciaTotal;}
 	}
 
 	public String getDistanciaRecorrida(){
 		String stringInicial = "You  were  ";
 		String stringFinal = " m  away  from  saving  the  world.";
-		String stringDistancia = String.format("%.2f",((distanciaTotal - distanciaRecorrida)/10));
+		String stringDistancia = String.format("%.2f",(distanciaTotal - distanciaRecorrida));
 
 		//String string = Float.toString(tiempoJugando);
 		return stringInicial + stringDistancia + stringFinal;

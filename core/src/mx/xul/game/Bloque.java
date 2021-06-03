@@ -19,7 +19,7 @@ public class Bloque extends ObjetoAnimado{
     // Recibe de parámetro la velocidad y el tiempo para calcular su desplazamiento
 
     public void mover (float delta, float velocidad){
-        float dx = velocidad*delta*.35f;
+        float dx = velocidad*delta;
         sprite.setX(sprite.getX()-dx);
     }
 

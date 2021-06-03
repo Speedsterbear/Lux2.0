@@ -19,11 +19,11 @@ public class Rojel extends Objeto {
         posicionY = y-(textura.getHeight()/2);
     }
 
-    public void moverHorizontal(float dx) {
+    public void moverHorizontal(float delta, float velocidad){
+        float dx = delta*velocidad;
         angulo +=3;
         sprite.setX(sprite.getX()-dx);
         sprite.setY(posicionY+(MathUtils.sinDeg(angulo)*10));
-
     }
 
     public void dibujar(SpriteBatch batch){

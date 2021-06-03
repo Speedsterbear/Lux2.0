@@ -65,6 +65,7 @@ public class PantallaPerdida extends Pantalla{
 
     // Texto
     private Texto texto; //Muestra los valores en la pantalla
+    private final float POSICIONY_TEXTO = ALTO/20f;
 
 
     public PantallaPerdida(Lux juego) {
@@ -119,14 +120,14 @@ public class PantallaPerdida extends Pantalla{
 
     private void crearBrillo() {
         texturaBrillo = new Texture("Utileria/brilloLumil.png");
-        brilloFrente = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,ALTO/2);
-        brilloAtras = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,ALTO/2);
-        brilloMasFrente = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,ALTO/2);
+        brilloFrente = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,(ALTO/2)+POSICIONY_TEXTO);
+        brilloAtras = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,(ALTO/2)+POSICIONY_TEXTO);
+        brilloMasFrente = new BrilloLumil(texturaBrillo,(ANCHO/3)-DX_HORIZONTAL_BRILLO,(ALTO/2)+POSICIONY_TEXTO);
     }
 
     private void crearCristal() {
         texturaCristalPerder  = new Texture ("PantallaPerdida/cristalPantallaPerder.png");
-        cristal = new Objeto(texturaCristalPerder,ANCHO/3,ALTO/2);
+        cristal = new Objeto(texturaCristalPerder,ANCHO/3,(ALTO/2)+POSICIONY_TEXTO);
     }
 
     private void crearFondo() {
@@ -143,7 +144,7 @@ public class PantallaPerdida extends Pantalla{
         escenaPerdio = new Stage(vista);
 
         Button btnreiniciar = crearBoton("PantallaPerdida/btnYesOFF.png","PantallaPerdida/btnYesON.png");
-        btnreiniciar.setPosition(ANCHO*3/4f, (ALTO/2)-(btnreiniciar.getHeight()/2), Align.center);
+        btnreiniciar.setPosition(ANCHO*3/4f, ((ALTO/2)+POSICIONY_TEXTO)-(btnreiniciar.getHeight()/2), Align.center);
         escenaPerdio.addActor(btnreiniciar);
         btnreiniciar.addListener(new ClickListener() {
             @Override
@@ -203,9 +204,9 @@ public class PantallaPerdida extends Pantalla{
 
 
         batch.draw(reflector,(ANCHO/3)-(reflector.getWidth()/2),0);
-        batch.draw(mensajePerder,ANCHO/2,(ALTO/2)+30);
+        batch.draw(mensajePerder,ANCHO/2,((ALTO/2)+POSICIONY_TEXTO)+30);
 
-        texto.mostrarMensaje(batch,juego.getDistanciaRecorrida(),ANCHO/2, ALTO/10);
+        texto.mostrarMensaje(batch,juego.getDistanciaRecorrida(),ANCHO/2, POSICIONY_TEXTO*2);
         batch.end();
 
         escenaPerdio.draw();
@@ -290,7 +291,7 @@ public class PantallaPerdida extends Pantalla{
     }
 
     private void actualizarCristal() {
-        cristal.sprite.setY((ALTO/2)-(cristal.sprite.getHeight()/2)+(MathUtils.sinDeg(angulo)*DY_VERTICAL_CRISTAL));
+        cristal.sprite.setY(((ALTO/2)+POSICIONY_TEXTO)-(cristal.sprite.getHeight()/2)+(MathUtils.sinDeg(angulo)*DY_VERTICAL_CRISTAL));
     }
 
     @Override

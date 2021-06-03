@@ -179,6 +179,9 @@ public class JuegoGS extends Pantalla {
     private float DX_PASO_ROJEL=2.5f;
     private float DX_PASO_SHIBLU=2.5f;
     private float DX_PASO_LUZ=2.5f;
+    private float factorElementosDerecha = 0.4f;
+
+
     public static float aparicion = 0;
 
     //Luz Final
@@ -261,6 +264,7 @@ public class JuegoGS extends Pantalla {
     boolean colisionLumilUp = false;
     boolean colisionLumilDown = false;
 
+
     private Boton botonPausa; //Boton para activar la pausa
     private Texture texturaPausaON;//Botón de Regreso
     private Texture texturaPausaOFF;
@@ -304,7 +308,7 @@ public class JuegoGS extends Pantalla {
 
     @Override
     public void show() {
-        juego.inicializarCuentaSegundos();
+        juego.inicializarContSegundosyDistancia();
         posicionDedo = new Vector3(0, 0, 0); //Posición del dedo
         crearTransicion();
         crearFondo();
@@ -481,24 +485,24 @@ public class JuegoGS extends Pantalla {
 
     private void crearEsgrun(){
         Texture texturaEsgrun = manager.get("Personajes/Esgrun.png");
-        esgrun = new Esgrun(texturaEsgrun, ANCHO + texturaEsgrun.getWidth(), positionY);
+        esgrun = new Esgrun(texturaEsgrun, (3*ANCHO/2) + (texturaEsgrun.getWidth()/2), positionY);
     }
 
     private void crearRojel(){
         Texture texturaRojel = manager.get("Personajes/Rojel.png");
-        rojel = new Rojel(texturaRojel, ANCHO + texturaRojel.getWidth(), positionY);
+        rojel = new Rojel(texturaRojel, (3*ANCHO/2) + (texturaRojel.getWidth()/2), positionY);
     }
 
     private void crearLuz(){
 
         texturaLuz = manager.get("Personajes/luzPersonaje.png");
 
-        luz = new Luz(texturaLuz,ANCHO+texturaLuz.getWidth(),ALTO/2,4,1,1/7f,2);
+        luz = new Luz(texturaLuz,(3*ANCHO/2)+(texturaLuz.getWidth()/2),ALTO/2,4,1,1/7f,2);
     }
 
     private void crearShiblu(){
         Texture texturaShiblu = manager.get("Personajes/Shiblu.png");
-        shiblu = new Shiblu(texturaShiblu, ANCHO + texturaShiblu.getWidth(), positionY);
+        shiblu = new Shiblu(texturaShiblu, (3*ANCHO/2) + (texturaShiblu.getWidth()/2), positionY);
     }
 
     //Este método sirve para crear los objetos que se moveran y bloquearán el paso al jugador
@@ -856,7 +860,7 @@ public class JuegoGS extends Pantalla {
             }
 
             distanciaRecorrida += velocidad * delta;
-            System.out.println(distanciaRecorrida);
+            //System.out.println(distanciaRecorrida);
 
             colisionLumilFront = hijoOscuridadColisionFront();
             colisionLumilUp = hijoOscuridadColisionUp();
@@ -979,7 +983,7 @@ public class JuegoGS extends Pantalla {
             }
 
             if(esgrun!=null){
-                moverEsgrun();
+                moverEsgrun(delta);
                 if(depurarEsgrun(delta)){
                     seccion = EstadoSeccion.ROJO;
                 }
@@ -993,7 +997,7 @@ public class JuegoGS extends Pantalla {
             }
 
             if(rojel!=null){
-                moverRojel();
+                moverRojel(delta);
                 if(depurarRojel()){
                     seccion = EstadoSeccion.AZUL;
                 }
@@ -1004,7 +1008,7 @@ public class JuegoGS extends Pantalla {
             }
 
             if(shiblu!=null){
-                moverShiblu();
+                moverShiblu(delta);
                 if(depurarShiblu()){
                     seccion = EstadoSeccion.BLANCO;
                 }
@@ -1014,7 +1018,7 @@ public class JuegoGS extends Pantalla {
             }
 
             if(luz!=null){
-                moverLuz();
+                moverLuz(delta);
                 depurarLuz();
                 if(luzPierde()){
                     estado = EstadoJuego.PIERDE;
@@ -1194,7 +1198,7 @@ public class JuegoGS extends Pantalla {
                 tiempoParaCrearHijoOscuridad = 1.8f;
                 dyLumil = DY_LUMIL_INICIAL*1.4f;
                 tiempoParaCrearBloque =0.55f; //Se espera esos segundos en crear el bloque.
-                escalaMinimaBloque = 0.45f;
+                escalaMinimaBloque = 0.5f;
                 escalaMaximaBloque = 0.6f;
                 break;
             case BLANCO:
@@ -1204,7 +1208,7 @@ public class JuegoGS extends Pantalla {
                 velocidadHijosOscuridad = velocidadHijoOscBlanco;
                 tiempoParaCrearHijoOscuridad = 0.6f;
                 dyLumil = DY_LUMIL_INICIAL*1.6f;
-                tiempoParaCrearBloque =1.15f; //Se espera esos segundos en crear el bloque.
+                tiempoParaCrearBloque =1.05f; //Se espera esos segundos en crear el bloque.
                 escalaMinimaBloque = 0.55f;
                 escalaMaximaBloque = 0.7f;
                 break;
@@ -1398,26 +1402,26 @@ public class JuegoGS extends Pantalla {
 
     }
 
-    private void moverEsgrun(){
-        esgrun.moverHorizontal(DX_PASO_ESGRUN);
+    private void moverEsgrun(float delta){
+        esgrun.moverHorizontal(delta,velocidad*factorElementosDerecha);
     }
 
-    private void moverRojel(){
-        rojel.moverHorizontal(DX_PASO_ROJEL);
+    private void moverRojel(float delta){
+        rojel.moverHorizontal(delta,velocidad*factorElementosDerecha);
     }
 
-    private void moverShiblu(){
-        shiblu.moverHorizontal(DX_PASO_SHIBLU);
+    private void moverShiblu(float delta){
+        shiblu.moverHorizontal(delta,velocidad*factorElementosDerecha);
     }
 
-    private void moverLuz(){
-        luz.moverHorizontal(DX_PASO_LUZ);
+    private void moverLuz(float delta){
+        luz.moverHorizontal(delta,velocidad*factorElementosDerecha);
     }
 
     private void moverBloques(float delta){
         //Mover los Enemigos
         for (Bloque bloque:arrBloques) {
-            bloque.mover(delta, velocidad);
+            bloque.mover(delta, velocidad*factorElementosDerecha);
         }
         //depurarBloques();
     }
@@ -1520,11 +1524,12 @@ public class JuegoGS extends Pantalla {
     }
 
     private void powerUpGemaRoja(){
+        boolean isLumilColliding = (colisionLumilDown || colisionLumilFront || colisionLumilUp);
         timerPowerUpGemaRoja += Gdx.graphics.getDeltaTime();
         //velocidad *= 1.1f;
         //colorLumil = ColoresLumil.ROJO;
-        if(timerPowerUpGemaRoja >= tiempoParaPowerUpGemaRoja){
-            velocidad = velocidadInicial;
+        if(timerPowerUpGemaRoja >= tiempoParaPowerUpGemaRoja && isLumilColliding==false){
+            //velocidad = velocidadInicial;
 
             //TODO: Red Power Up Stuff
 
