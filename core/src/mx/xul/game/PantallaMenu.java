@@ -62,7 +62,7 @@ public class PantallaMenu extends Pantalla {
     private void crearLumil() {
         texturaLumil = new Texture("Menu/menuLumil.png");
         lumil = new Objeto(texturaLumil,ANCHO/4,ALTO/2);
-        lumil.sprite.setScale(0.8f);
+        lumil.sprite.setScale(0.9f);
     }
 
     private void crearEstrellas() {

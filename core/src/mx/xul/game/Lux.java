@@ -17,7 +17,7 @@ public class Lux extends Game {
 	//Musica
 	private Music musicaPantallasSecundarias;
 	private Music musicaPantallasSecundariasIntro;
-	private final float VOLUMEN_DESEADO = 0.7f;
+	private final float VOLUMEN_DESEADO = 0.6f;
 	private float volumenMusica=VOLUMEN_DESEADO;
 	private float tiempoJugando =0;// Acumulador para saber cuanto tiempo se tardó pasar el juego.
 	private float distanciaRecorrida =0; //Acumulador para saber la distancia recorrida.

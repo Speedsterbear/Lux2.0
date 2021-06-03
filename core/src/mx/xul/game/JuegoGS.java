@@ -297,7 +297,7 @@ public class JuegoGS extends Pantalla {
     private boolean isSonidoJuegoFadingIn = false;
     private boolean isSonidoJuegoFadingOut = false;
     private final float VALOR_MAXIMO_PITCH=1.09f;
-    private final float VOLUMEN_MAXIMO_SONIDOJUEGO = 0.5f;
+    private final float VOLUMEN_MAXIMO_SONIDOJUEGO = 0.65f;
     private final float TIEMPO_FADE_SONIDOJUEGO = 10; //Tiempo que tarda en realizar los fade in y out.
     private boolean musicaON = true;
 
