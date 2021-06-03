@@ -126,6 +126,7 @@ public class JuegoGS extends Pantalla {
     private final float duracionFrameLumil = 1/10f; //Duración en segundos  inicial de los frames de la animación d Lumil
     private final float incrementoVelocidadVerde = 1.65f; //Numero de veces en las que se incrementará la velocidad al usar la habilidad de la gema verde
     private Vector3 posicionDedo;
+    private float coordenadaYLumil = ALTO/2;
     private boolean isMoving = false; //indica si el perosnaje principal debe moverse hacia arriba o abajo
     private ColoresLumil colorLumil = ColoresLumil.BLANCO; // Representa el color que tiene el personaje principal en el momento.
     private Texture texturaBrillo;
@@ -1184,10 +1185,10 @@ public class JuegoGS extends Pantalla {
                 velocidadInicial = velocidadAzul;
                 velocidadOscuridad = velocidadOscAzul;
                 velocidadHijosOscuridad = velocidadHijoOscAzul;
-                tiempoParaCrearHijoOscuridad = 1.9f;
+                tiempoParaCrearHijoOscuridad = 1.8f;
                 dyLumil = DY_LUMIL_INICIAL*1.4f;
-                tiempoParaCrearBloque =0.6f; //Se espera esos segundos en crear el bloque.
-                escalaMinimaBloque = 0.5f;
+                tiempoParaCrearBloque =0.55f; //Se espera esos segundos en crear el bloque.
+                escalaMinimaBloque = 0.45f;
                 escalaMaximaBloque = 0.6f;
                 break;
             case BLANCO:
@@ -1195,9 +1196,9 @@ public class JuegoGS extends Pantalla {
                 velocidadInicial = velocidadBlanco;
                 velocidadOscuridad = velocidadOscBlanco;
                 velocidadHijosOscuridad = velocidadHijoOscBlanco;
-                tiempoParaCrearHijoOscuridad = 0.65f;
+                tiempoParaCrearHijoOscuridad = 0.6f;
                 dyLumil = DY_LUMIL_INICIAL*1.6f;
-                tiempoParaCrearBloque =1.4f; //Se espera esos segundos en crear el bloque.
+                tiempoParaCrearBloque =1.15f; //Se espera esos segundos en crear el bloque.
                 escalaMinimaBloque = 0.55f;
                 escalaMaximaBloque = 0.7f;
                 break;
@@ -1437,7 +1438,7 @@ public class JuegoGS extends Pantalla {
 
         //Aqui se genera realmente el movimiento
         if (Moving){
-            lumil.mover(DELTAY,posicionDedo.y);
+            lumil.mover(DELTAY,coordenadaYLumil);
         } else {lumil.sprite.setRotation(0);}
 
         //lumilG.sprite.setY(lumil.sprite.getY());
@@ -1447,7 +1448,7 @@ public class JuegoGS extends Pantalla {
 
     public void moverLumilxy(boolean Moving, float up, float down){
         if (Moving){
-            lumil.moverxy(up, down, posicionDedo.y);
+            lumil.moverxy(up, down, coordenadaYLumil);
         } else {lumil.sprite.setRotation(0);}
 
         //Realmente el que realiza la función de moverse y girar es Lumil (blanco), cuando se cambia de color, éstos toman la posición y la rotación de Lumil blanco.
@@ -1705,7 +1706,6 @@ public class JuegoGS extends Pantalla {
         //Guarda las coordenadas del dedo y habilita el movimiento hacia rriba y abajo del personaje principal
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
             if(estado==EstadoJuego.PIERDE){
                 velocidad =0;
                 velocidadOscuridad =0;
@@ -1728,6 +1728,7 @@ public class JuegoGS extends Pantalla {
 
                 if (posicionDedo.x>=ANCHO/4) {
                     isMoving = true;
+                    coordenadaYLumil = posicionDedo.y;
 
 
                 } else if (gemaVerde.getRectangle(20).contains(posicionDedo.x,posicionDedo.y) && activarPowerUpGemaVerde &&  powerups && powerupActive ){
@@ -1767,6 +1768,7 @@ public class JuegoGS extends Pantalla {
                 camara.unproject(posicionDedo);
 
                 if (posicionDedo.x >= ANCHO / 4) {
+                    coordenadaYLumil = posicionDedo.y;
                     isMoving = true;
 
                 } else if (gemaVerde.getRectangle(20).contains(posicionDedo.x, posicionDedo.y)&& activarPowerUpGemaVerde &&  powerups && powerupActive) {
@@ -1821,6 +1823,7 @@ public class JuegoGS extends Pantalla {
                 camara.unproject(posicionDedo);
 
                 if (posicionDedo.x >= ANCHO / 4) {
+                    coordenadaYLumil = posicionDedo.y;
                     isMoving = true;
                 } else if (gemaVerde.getRectangle(20).contains(posicionDedo.x, posicionDedo.y)&& activarPowerUpGemaVerde &&  powerups && powerupActive) {
                     gemaVerde.active();
